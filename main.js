@@ -42,16 +42,17 @@ app.post('/trimVideo', function (req, res) {
         console.log('Filename: ' + info._filename);
         console.log('Size: ' + info.size);
     });
+    res.writeHead(200,{
+        'Content-Type':'application/force-download',
+        "Content-Transfer-Encoding": "binary",
+        'Content-Disposition': 'attachment; filename="video-finale.mp4"'
+    })
     var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.flv';
     var stream = video.pipe(fs.createWriteStream(vidname));
     
     stream.on('finish', () => {
         console.log('Download Complete ');
-        res.writeHead(200,{
-            'Content-Type':'application/force-download',
-            "Content-Transfer-Encoding": "binary",
-            'Content-Disposition': 'attachment; filename="video-finale.mp4"'
-        })
+
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
