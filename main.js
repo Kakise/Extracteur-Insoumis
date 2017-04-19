@@ -43,8 +43,7 @@ app.post('/trimVideo', function (req, res) {
     });
     var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
     var stream = video.pipe(fs.createWriteStream(vidname));
-    var name = 'vids/' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
-
+    
     stream.on('finish', () => {
         console.log('Download Complete ');
         res.writeHead(200,{
@@ -52,27 +51,27 @@ app.post('/trimVideo', function (req, res) {
             "Content-Transfer-Encoding": "binary",
             'Content-Disposition': 'attachment; filename="video-finale.mp4"'
         })
-        ffmpeg(vidname)
-            .setStartTime(timecode)
-            .setDuration(duration)
-            .format('mp4')
-            .on('start', function(cmd) {
-                console.log('Started ' + cmd);
-            })
-            .on('end', function (err) {
-                if (!err) {
-                    console.log('Trim done');
-                    res.end;
-                } else {
-                    res.send(500);
-                }
-            })
-            .on('error', function (err) {
-                console.log('error: ' + err);
-                res.status(500).send();
+        var ffmpeg = child_process.spawn('ffmpeg', ['-i', vidname, '-ss', timecode, '-t', duration, '-f', 'mp4', 'pipe:1']);
+        ffmpeg.stdout.pipe(res, {end: true});
 
-            }).pipe(res, {end:true}); //Working?
+        ffmpeg.stderr.on('data', function (data) {
+            console.log(data.toString());
+        });
+
+        ffmpeg.stderr.on('end', function () {
+            console.log('file has been converted succesfully');
+        });
+
+        ffmpeg.stderr.on('exit', function () {
+            console.log('child process exited');
+        });
+
+        ffmpeg.stderr.on('close', function() {
+            console.log('...closing time! bye');
+        });
     });
 });
+
+
 
 app.listen(process.env.PORT || 80);
