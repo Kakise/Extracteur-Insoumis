@@ -34,7 +34,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(timecode);
     console.log(duration);
     var video = youtubedl(url,
-        ['--format=18'],
+        ['--format=43'],
         { cwd: __dirname });
 
     video.on('info', function (info) {
@@ -42,7 +42,7 @@ app.post('/trimVideo', function (req, res) {
         console.log('Filename: ' + info._filename);
         console.log('Size: ' + info.size);
     });
-    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
+    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.flv';
     var stream = video.pipe(fs.createWriteStream(vidname));
     
     stream.on('finish', () => {
@@ -52,24 +52,23 @@ app.post('/trimVideo', function (req, res) {
             "Content-Transfer-Encoding": "binary",
             'Content-Disposition': 'attachment; filename="video-finale.mp4"'
         })
-        var ffmpeg = child_process.spawn('./bins/ffmpeg', ['-i', vidname, '-ss', timecode, '-t', duration, '-c:a', 'aac', '-f', 'mp4', 'pipe:1']);
-        ffmpeg.stdout.pipe(res, {end: true});
+        ffmpeg(vidname)
+            .setStartTime(timecode)
+            .setDuration(duration)
+            .format('mp4')
+            .on('end', function (err) {
+                if (!err) {
+                    console.log('Trim done');
+                    res.end;
+                } else {
+                    res.send(500);
+                }
+            })
+            .on('error', function (err) {
+                console.log('error: ', +err);
+                res.status(500).send();
 
-        ffmpeg.stderr.on('data', function (data) {
-            console.log(data.toString());
-        });
-
-        ffmpeg.stderr.on('end', function () {
-            console.log('file has been converted succesfully');
-        });
-
-        ffmpeg.stderr.on('exit', function () {
-            console.log('child process exited');
-        });
-
-        ffmpeg.stderr.on('close', function() {
-            console.log('...closing time! bye');
-        });
+            }).pipe(res, {end:true});
     });
 });
 
