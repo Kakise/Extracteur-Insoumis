@@ -52,7 +52,7 @@ app.post('/trimVideo', function (req, res) {
             "Content-Transfer-Encoding": "binary",
             'Content-Disposition': 'attachment; filename="video-finale.mp4"'
         })
-        var ffmpeg = child_process.spawn('ffmpeg', ['-strict -2', '-i', vidname, '-ss', timecode, '-t', duration, '-f', 'mp4', 'pipe:1']);
+        var ffmpeg = child_process.spawn('./bins/ffmpeg', ['-i', vidname, '-ss', timecode, '-t', duration, '-f', 'mp4', 'pipe:1']);
         ffmpeg.stdout.pipe(res, {end: true});
 
         ffmpeg.stderr.on('data', function (data) {
