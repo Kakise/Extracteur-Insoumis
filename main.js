@@ -10,6 +10,8 @@ var timeout = require('connect-timeout');
 if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
 } else if (isLin) {
+    // Ensure chmod
+    fs.chmodSync('bins/ffmpeg', '+x');
     ffmpeg.setFfmpegPath('bins/ffmpeg');
 }
 
