@@ -48,12 +48,14 @@ app.post('/trimVideo', function (req, res) {
     stream.on('finish', () => {
         console.log('Download Complete ');
         res.writeHead(200,{
-            'Content-Type':'video/mp4'
+            'Content-Type':'application/force-download',
+            "Content-Transfer-Encoding": "binary",
+            'Content-Disposition': 'attachment; filename="video-finale.mp4"'
         })
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
-            .output(name)
+            .format('mp4')
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
