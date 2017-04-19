@@ -57,7 +57,7 @@ app.post('/trimVideo', function (req, res) {
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
-            .format('webm')
+            .format('avi') //Lossless compression = faster
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
