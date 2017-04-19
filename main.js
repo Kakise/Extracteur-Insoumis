@@ -55,7 +55,7 @@ app.post('/trimVideo', function (req, res) {
             .setStartTime(timecode)
             .setDuration(duration)
             .output(name)
-            .pipe(res)
+            .output(res)
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
