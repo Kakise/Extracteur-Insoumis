@@ -60,7 +60,9 @@ app.post('/trimVideo', function (req, res) {
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
-                    res.download(name, 'video-finale.mp4');
+                    res.end;
+                } else {
+                    res.send(500);
                 }
 
             })
