@@ -39,7 +39,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(timecode);
     console.log(duration);
     var video = youtubedl(url,
-        ['--format=bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'],
+        ['-f bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'],
         { cwd: __dirname });
 
     video.on('info', function (info) {
