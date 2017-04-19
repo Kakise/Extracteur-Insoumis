@@ -55,7 +55,7 @@ app.post('/trimVideo', function (req, res) {
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
-            .format('mp4')
+            .format('avi')
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
