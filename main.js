@@ -38,20 +38,11 @@ app.post('/trimVideo', function (req, res) {
     console.log(url);
     console.log(timecode);
     console.log(duration);
-    var video = youtubedl(url,
-        ['-f bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'],
-        { cwd: __dirname });
-
-    video.on('info', function (info) {
-        console.log('Download started');
-        console.log('Filename: ' + info._filename);
-        console.log('Size: ' + info.size);
-    });
-
-    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
-    var stream = video.pipe(fs.createWriteStream(vidname));
     
-    stream.on('finish', () => {
+    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
+    var video = child_process.spawn('./node_modules/youtube-dl/bin/youtube-dl', [url, '-f', 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', '-o', vidname]);
+    
+    video.stderr.on('end', () => {
         console.log('Download Complete ');
 
         ffmpeg(vidname)
