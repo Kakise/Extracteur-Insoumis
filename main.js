@@ -34,7 +34,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(timecode);
     console.log(duration);
     var video = youtubedl(url,
-        ['--format=137+140'], //Format supposé compatible avec ffmpeg
+        ['--format=137+140'],
         { cwd: __dirname });
 
     video.on('info', function (info) {
