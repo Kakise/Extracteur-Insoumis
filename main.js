@@ -10,11 +10,11 @@ var child_process = require('child_process');
 
 if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
-} /*else if (isLin) {
+} else if (isLin) {
     // Ensure chmod
     fs.chmodSync('bins/ffmpeg', 0755);
     ffmpeg.setFfmpegPath('bins/ffmpeg');
-}*/ //Heroku would need this tbh
+} //Heroku would need this tbh
 
 var app = express();
 
