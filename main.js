@@ -47,15 +47,13 @@ app.post('/trimVideo', function (req, res) {
 
     stream.on('finish', () => {
         console.log('Download Complete ');
-        /*res.send(200), {
-            "Content-Type": "video/mp4",
-            "Content-disposition": "filename='video-finale.mp4'"
-        });*/
+        res.writeHead(200,{
+            'Content-Type':'video/mp4'
+        })
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
             .output(name)
-            .output(res)
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
@@ -67,7 +65,7 @@ app.post('/trimVideo', function (req, res) {
                 console.log('error: ', +err);
                 res.status(500).send();
 
-            }).run();
+            }).run().pipe(res);
     });
 });
 
