@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({
 app.post('/trimVideo', function (req, res) {
     var url = req.body.element_1; // Doit être correctement formatée
     var timecode = req.body.element_2_1 + ':' + req.body.element_2_2 + ':' + req.body.element_2_3; // Format xx:yy:zz
-    var duration = req.body.element_3; // En secondes
+    var duration = (req.body.element_3_1 - req.body.element_2_1) * 3600 + (req.body.element_3_2 - req.body.element_2_2) * 60 + (req.body.element_3_3 - req.body.element_2_3); //En secondes
     console.log(url);
     console.log(timecode);
     console.log(duration);
