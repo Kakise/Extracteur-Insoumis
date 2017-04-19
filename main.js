@@ -56,6 +56,9 @@ app.post('/trimVideo', function (req, res) {
             .setStartTime(timecode)
             .setDuration(duration)
             .format('mp4')
+            .on('start', function(cmd) {
+                console.log('Started ' + cmd);
+            })
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
