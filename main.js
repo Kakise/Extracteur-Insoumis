@@ -6,6 +6,7 @@ var express = require('express');
 var isWin = /^win/.test(process.platform);
 var isLin = /^linux/.test(process.platform);
 var timeout = require('connect-timeout');
+var child_process = require('child_process');
 
 if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
