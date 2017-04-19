@@ -71,7 +71,7 @@ app.post('/trimVideo', function (req, res) {
                 console.log('error: ' + err);
                 res.status(500).send();
 
-            }).pipe(res, {end:true});
+            }).pipe(res, {end:true}); //Working?
     });
 });
 
