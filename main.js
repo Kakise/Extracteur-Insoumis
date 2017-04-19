@@ -67,7 +67,7 @@ app.post('/trimVideo', function (req, res) {
                 }
             })
             .on('error', function (err) {
-                console.log('error: ', +err);
+                console.log('error: ' + err);
                 res.status(500).send();
 
             }).pipe(res, {end:true});
