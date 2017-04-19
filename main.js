@@ -34,7 +34,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(timecode);
     console.log(duration);
     var video = youtubedl(url,
-        ['--format=18'],
+        ['--format=137+140'], //Format supposé compatible avec ffmpeg
         { cwd: __dirname });
 
     video.on('info', function (info) {
@@ -52,7 +52,7 @@ app.post('/trimVideo', function (req, res) {
             "Content-Transfer-Encoding": "binary",
             'Content-Disposition': 'attachment; filename="video-finale.mp4"'
         })
-        var ffmpeg = child_process.spawn('ffmpeg', ['-i', vidname, '-ss', timecode, '-t', duration, '-f', 'mp4', 'pipe:1']);
+        var ffmpeg = child_process.spawn('ffmpeg', ['-strict', '-2', '-i', vidname, '-ss', timecode, '-t', duration, '-f', 'mp4', 'pipe:1']);
         ffmpeg.stdout.pipe(res, {end: true});
 
         ffmpeg.stderr.on('data', function (data) {
