@@ -30,6 +30,11 @@ app.post('/trimVideo', function (req, res) {
     var url = req.body.element_1; // Doit être correctement formatée
     var timecode = req.body.element_2_1 + ':' + req.body.element_2_2 + ':' + req.body.element_2_3; // Format xx:yy:zz
     var duration = (req.body.element_3_1 - req.body.element_2_1) * 3600 + (req.body.element_3_2 - req.body.element_2_2) * 60 + (req.body.element_3_3 - req.body.element_2_3); //En secondes
+        res.writeHead(200,{
+        'Content-Type':'application/force-download',
+        "Content-Transfer-Encoding": "binary",
+        'Content-Disposition': 'attachment; filename="video-finale.avi"'
+    })
     console.log(url);
     console.log(timecode);
     console.log(duration);
@@ -42,11 +47,7 @@ app.post('/trimVideo', function (req, res) {
         console.log('Filename: ' + info._filename);
         console.log('Size: ' + info.size);
     });
-    res.writeHead(200,{
-        'Content-Type':'application/force-download',
-        "Content-Transfer-Encoding": "binary",
-        'Content-Disposition': 'attachment; filename="video-finale.mp4"'
-    })
+
     var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.flv';
     var stream = video.pipe(fs.createWriteStream(vidname));
     
