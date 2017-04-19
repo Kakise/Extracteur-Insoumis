@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var isWin = /^win/.test(process.platform);
 var isLin = /^linux/.test(process.platform);
+var timeout = require('connect-timeout');
 
 if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
@@ -16,12 +17,14 @@ var app = express();
 
 app.use(express.static('static'));
 
+app.use(timeout('2000s'));
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
 app.post('/trimVideo', function (req, res) {
-    var url = req.body.element_1; // Doit être correctement formatée
+    var url = req.body.element_1; // Doit Ãªtre correctement formatÃ©e
     var timecode = req.body.element_2_1 + ':' + req.body.element_2_2 + ':' + req.body.element_2_3; // Format xx:yy:zz
     var duration = req.body.element_3; // En secondes
     console.log(url);
