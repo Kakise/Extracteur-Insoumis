@@ -11,7 +11,7 @@ if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
 } else if (isLin) {
     // Ensure chmod
-    fs.chmodSync('bins/ffmpeg', '+x');
+    fs.chmodSync('bins/ffmpeg', 0755);
     ffmpeg.setFfmpegPath('bins/ffmpeg');
 }
 
