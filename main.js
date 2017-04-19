@@ -9,11 +9,11 @@ var timeout = require('connect-timeout');
 
 if (isWin) {
     ffmpeg.setFfmpegPath('bins/ffmpeg.exe');
-} else if (isLin) {
+} /*else if (isLin) {
     // Ensure chmod
     fs.chmodSync('bins/ffmpeg', 0755);
     ffmpeg.setFfmpegPath('bins/ffmpeg');
-}
+}*/ //Heroku would need this tbh
 
 var app = express();
 
