@@ -54,6 +54,9 @@ app.post('/trimVideo', function (req, res) {
             .setStartTime(timecode)
             .setDuration(duration)
             .output(name)
+            .on('data', function(data) {
+                res.pipe(data);
+            })
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
@@ -65,7 +68,7 @@ app.post('/trimVideo', function (req, res) {
                 console.log('error: ', +err);
                 res.status(500).send();
 
-            }).run().pipe(res);
+            }).run();
     });
 });
 
