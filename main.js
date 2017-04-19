@@ -19,7 +19,7 @@ var app = express();
 
 app.use(express.static('static'));
 
-app.use(timeout('2000s'));
+app.use(timeout('2m'));
 
 app.use(bodyParser.urlencoded({
     extended: true
