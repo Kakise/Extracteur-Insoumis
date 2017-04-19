@@ -10,6 +10,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "connect-timeout": "^1.8.0",
     "express": "^4.15.2",
     "fluent-ffmpeg": "^2.1.0",
     "youtube-dl": "^1.11.1"
