@@ -33,7 +33,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(url);
     console.log(timecode);
     console.log(duration);
-    var video = youtubedl(url,
+    var video = youtubedl(url.toString(),
         ['--format=137+140'],
         { cwd: __dirname });
 
