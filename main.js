@@ -52,6 +52,7 @@ app.post('/trimVideo', function (req, res) {
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
+                    fs.unlinkSync(vidname);
                     res.end;
                 } else {
                     res.send(500);
