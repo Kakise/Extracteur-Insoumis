@@ -39,7 +39,7 @@ app.post('/trimVideo', function (req, res) {
     console.log(timecode);
     console.log(duration);
     var video = youtubedl(url,
-        ['--format=43'],
+        ['--format=bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'],
         { cwd: __dirname });
 
     video.on('info', function (info) {
@@ -48,7 +48,7 @@ app.post('/trimVideo', function (req, res) {
         console.log('Size: ' + info.size);
     });
 
-    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.webm';
+    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.mp4';
     var stream = video.pipe(fs.createWriteStream(vidname));
     
     stream.on('finish', () => {
