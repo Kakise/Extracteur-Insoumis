@@ -47,7 +47,7 @@ app.post('/trimVideo', function (req, res) {
 
     stream.on('finish', () => {
         console.log('Download Complete ');
-        res.writeHead(200, {
+        res.send(200, {
             "Content-Type": "video/mp4",
             "Content-disposition": "filename='video-finale.mp4'"
         });
