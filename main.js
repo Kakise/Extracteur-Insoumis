@@ -48,7 +48,7 @@ app.post('/trimVideo', function (req, res) {
         console.log('Size: ' + info.size);
     });
 
-    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.flv';
+    var vidname = 'vids/temp-' + Math.floor(Math.random() * (9999 - 1) + 1).toString() + '.webm';
     var stream = video.pipe(fs.createWriteStream(vidname));
     
     stream.on('finish', () => {
@@ -57,7 +57,7 @@ app.post('/trimVideo', function (req, res) {
         ffmpeg(vidname)
             .setStartTime(timecode)
             .setDuration(duration)
-            .format('avi')
+            .format('webm')
             .on('end', function (err) {
                 if (!err) {
                     console.log('Trim done');
